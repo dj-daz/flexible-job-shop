@@ -23,8 +23,8 @@ print("=== SELECTION ===")
 pop = [([1, 3, 1, 2, 2, 3], [2, 1, 3, 1, 2, 2]),
        ([1, 1, 2, 2, 3, 3], [1, 2, 3, 1, 2, 3]),
        ([3, 2, 1, 1, 2, 3], [1, 1, 1, 1, 1, 1])]
-print("elitist: " + str(genetic.elitistSelection(pop)))
-print("tournament: " + str(genetic.tournamentSelection(pop)))
+print("elitist: " + str(genetic.elitistSelection(pop, {'machinesNb': 6, 'jobs': jobs})))
+print("tournament: " + str(genetic.tournamentSelection(pop, {'machinesNb': 6, 'jobs': jobs})))
 
 print("=== MUTATION ===")
 p = [0, 1, 2, 3, 4, 5]
