@@ -13,12 +13,15 @@ def arrival_time(rate, no_jobs, init_arrival_time=0):
     return times
 
 
-def create_operation_v_machine(no_machines, max_operations, machine_abilities, min_max, large_no=-1):
+def create_operation_v_machine(no_machines, max_operations, machine_abilities, min_max, min_time, max_time, large_no=-1):
     o_v_m = {}
+    avg = (min_time+max_time)/2.0
+    lower = avg/max_time
+    upper = avg/min_time
     for j in range(0, no_machines):
-        o_v_m[j] = [random.uniform((1.0 - min_max), (1.0 + min_max)) if i in machine_abilities[j] else large_no for i in
-                    range(0, max_operations)]
+        o_v_m[j+1] = [avg/float(random.randint(min_time, max_time)) if i in machine_abilities[j] else large_no for i in range(1, max_operations+1)]
     temp = pd.DataFrame(data=o_v_m)
+    temp.index = temp.index + 1
     # print(temp.loc[2].tolist())
     return temp
 
@@ -28,16 +31,17 @@ def create_job_library(no_jobs, max_ops, max_steps, op_v_m, min_time, max_time):
     product_id = 0
     for i in range(no_jobs):
         # ops = random.uniform(2, max_ops)
-        ops = random.randint(2, max_steps)
-        process = random.choices(range(0, max_ops), k=ops)
-        op = 0
-        for step in process:
-            base_time = random.uniform(min_time, max_time)
-            time_ratios = op_v_m.loc[step].tolist()
-            times = [None if tim == -1 else int(base_time/tim)*1 for tim in time_ratios]
-            op_name = str(op) + '_' + str(step)
-            library_of_jobs[(i, op, step)] = times
-            op += 1
+        no_ops = random.randint(2, max_steps)
+        ops = random.choices(range(1, max_ops+1), k=no_ops)
+        step = 0
+        for op in ops:
+            upper = max_time*0.1
+            # base_time = random.uniform(min_time, max_time)
+            base_time = (min_time + max_time) / 2
+            time_ratios = op_v_m.loc[op].tolist()
+            times = [None if tim == -1 else max(min_time, min(round(base_time/tim)*1, max_time)) for tim in time_ratios]
+            library_of_jobs[(i, step, op)] = times
+            step += 1
     job_lib = pd.DataFrame(library_of_jobs).T
     job_lib.index.names = ["prod_id", "step", "ops"]
     return job_lib

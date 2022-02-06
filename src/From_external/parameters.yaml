@@ -1,46 +1,73 @@
 ---
 
 # File naming
-suffix : '_'
-folder : 'short_experiments'
-trained_folder : 'DQN_Pretrained_short'
+project_name : "Testing"
+
+suffix : 'double_2'
+folder : 'experiments_forward_filtered'
+trained_folder : 'experiments_forward_filtered_trained'
+log_to_file: False
+
 
 # episode parameters
-EPISODES : 1
-EPISODE_STEPS : 1000
+EPISODES : 2000
+EPISODE_STEPS : 4000
 SHOW_EVERY : 100
 SHOW : True
+TEST_EPISODE: 10
+
+# rule based method
+# RAND: Random, FCFS: First Come First Serve
+RULE : "FCFS"
 
 # DQN parameters
+double : True
+PER : False
+
 BATCH_SIZE : 64
-BUFFER_SIZE : 100000
-TARGET_UPDATE_FREQ : 1000
+BUFFER_SIZE : 3000000
+TARGET_UPDATE_FREQ : 50000
+TAU : 0.0001
 LEARNING_FREQ : 1
 epsilon : 1  # 0 means no exploration, 1 means only exploration
-EPSILON_DECAY : 0.999
-MIN_EPSILON : 0.001
+EPSILON_DECAY : 0.995
+MIN_EPSILON : 0.1
 LEARNING_RATE : 0.0001
-DISCOUNT : 0.99
-LEARNING_START : 50000
+DISCOUNT : 0.95
+LEARNING_START : 64
 
 # job parameters
+DYNAMIC : False
 MAX_DEADLINE : 5000
-MAX_OPERATIONS : 4
-MIN_OP_TIME : 1
-MAX_OP_TIME : 6
+MAX_OPERATIONS : 3
+MIN_OP_TIME : 120.0
+MAX_OP_TIME : 240.0
+
+SPEED_SEED : 5
+JOB_LIB_SEED : 6
+INSTANCE_SEED : 7
+
 
 # environment parameters
 n : 4   # number of upcoming processes seen
-m : 3  # window size
+m : 2  # window size
 
-JOBS_TO_COMPLETE : 5
+FRAME_SKIP : 1
+
+JOBS_TO_COMPLETE : 10
+JOBS_TO_GENERATE: 10
 CONVEYOR_SIZE : 12
 CONVEYOR_POS : [0, 1, 5, 9]
-CONVEYOR_FILL : 0.5
+#CONVEYOR_POS : [0, 1, 2, 3]
+CONVEYOR_FILL : 0.6
 
 NUMBER_AGENTS : 3
-NUMBER_ABILITIES : 4
-ABILITIES : [[0, 1, 2], [1, 2], [0, 3]]
+#NUMBER_ABILITIES : 4
+ABILITIES : [[1, 2, 3], [1, 2, 3], [1, 2, 3]]
+
+#NUMBER_AGENTS : 2
+# NUMBER_ABILITIES : 3
+#ABILITIES : [[1, 2, 3], [1, 2, 3]]
 
 JOB_STATUSES : {"waiting": 0,
                 "processing": 1,
@@ -48,15 +75,14 @@ JOB_STATUSES : {"waiting": 0,
                 }
 AGENT_STATUSES : {"idle": 0,
                   "starting job": 1,
-                  "processing job": 1,
-                  "finishing job": 1,
-                  "ready for unload": 4
+                  "processing job": 2,
+                  "ready for unload": 3
                   }
 
 average_score : -100000
 best_score : -100000
 
-rate : 0.005
-min_max : 0.2
+rate : 0.1
+min_max : 0.5
 unique_no_job : 2
 max_steps : 4
