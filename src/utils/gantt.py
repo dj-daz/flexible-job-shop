@@ -53,6 +53,7 @@ def draw_chart(data):
     max_len = []
 
     for machine, operations in sorted(data.items()):
+        print(f'machine: {machine}, operations: {operations}')
         for op in operations:
             max_len.append(op[1])
             c = random.choice(colors)

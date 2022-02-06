@@ -57,6 +57,9 @@ def decode(pb_instance, os, ms):
     o = pb_instance['jobs']
     machine_operations = [[] for i in range(pb_instance['machinesNb'])]
 
+    job_sequence = [[] for i in range(pb_instance['machinesNb'])]
+    operation_sequence = [[] for i in range(pb_instance['machinesNb'])]
+
     ms_s = split_ms(pb_instance, ms)  # machine for each operations
 
     indexes = [0] * len(ms_s)
@@ -71,28 +74,40 @@ def decode(pb_instance, os, ms):
         start_cstr = start_task_cstr[job]
 
         # Getting the first available place for the operation
-        start = find_first_available_place(start_cstr, prcTime, machine_operations[machine - 1])
+        start = find_first_available_place(start_cstr, prcTime, machine_operations[machine])
         name_task = "{}-{}".format(job, indexes[job]+1)
 
-        machine_operations[machine - 1].append((name_task, prcTime, start_cstr, start))
+        job_sequence[machine].append(job)
+        operation_sequence[machine].append(indexes[job]+1)
+
+        machine_operations[machine].append((name_task, prcTime, start_cstr, start, job, indexes[job]+1))
 
         # Updating indexes (one for the current task for each job, one for the start constraint
         # for each job)
         indexes[job] += 1
         start_task_cstr[job] = (start + prcTime)
 
-    return machine_operations
+    return machine_operations, job_sequence, operation_sequence
 
 
 def translate_decoded_to_gantt(machine_operations):
     data = {}
+    job_sequence = []
+    operation_sequence = []
 
     for idx, machine in enumerate(machine_operations):
         machine_name = "Machine-{}".format(idx + 1)
         operations = []
         for operation in machine:
-            operations.append([operation[3], operation[3] + operation[1], operation[0]])
+            operations.append([operation[3], operation[3] + operation[1], operation[0], operation[4], operation[5]])
 
         data[machine_name] = operations
 
-    return data
+    for machine, operations in data.items():
+        inorder = sorted(operations, key = lambda x: x[0])
+        print(f'inorder is {inorder}')
+        jobs = [job[3] for job in inorder]
+        ops = [op[4] for op in inorder]
+        job_sequence.append(jobs)
+        operation_sequence.append(ops)
+    return data, job_sequence, operation_sequence

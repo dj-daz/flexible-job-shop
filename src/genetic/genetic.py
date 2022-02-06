@@ -11,7 +11,7 @@ from src.genetic import decoding
 
 def timeTaken(os_ms, pb_instance):
     (os, ms) = os_ms
-    decoded = decoding.decode(pb_instance, os, ms)
+    decoded, _ , _ = decoding.decode(pb_instance, os, ms)
 
     # Getting the max for each machine
     max_per_machine = []

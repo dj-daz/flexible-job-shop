@@ -1,0 +1,62 @@
+---
+
+# File naming
+suffix : '_'
+folder : 'short_experiments'
+trained_folder : 'DQN_Pretrained_short'
+
+# episode parameters
+EPISODES : 1
+EPISODE_STEPS : 1000
+SHOW_EVERY : 100
+SHOW : True
+
+# DQN parameters
+BATCH_SIZE : 64
+BUFFER_SIZE : 100000
+TARGET_UPDATE_FREQ : 1000
+LEARNING_FREQ : 1
+epsilon : 1  # 0 means no exploration, 1 means only exploration
+EPSILON_DECAY : 0.999
+MIN_EPSILON : 0.001
+LEARNING_RATE : 0.0001
+DISCOUNT : 0.99
+LEARNING_START : 50000
+
+# job parameters
+MAX_DEADLINE : 5000
+MAX_OPERATIONS : 4
+MIN_OP_TIME : 1
+MAX_OP_TIME : 6
+
+# environment parameters
+n : 4   # number of upcoming processes seen
+m : 3  # window size
+
+JOBS_TO_COMPLETE : 5
+CONVEYOR_SIZE : 12
+CONVEYOR_POS : [0, 1, 5, 9]
+CONVEYOR_FILL : 0.5
+
+NUMBER_AGENTS : 3
+NUMBER_ABILITIES : 4
+ABILITIES : [[0, 1, 2], [1, 2], [0, 3]]
+
+JOB_STATUSES : {"waiting": 0,
+                "processing": 1,
+                "finished": 2,
+                }
+AGENT_STATUSES : {"idle": 0,
+                  "starting job": 1,
+                  "processing job": 1,
+                  "finishing job": 1,
+                  "ready for unload": 4
+                  }
+
+average_score : -100000
+best_score : -100000
+
+rate : 0.005
+min_max : 0.2
+unique_no_job : 2
+max_steps : 4
