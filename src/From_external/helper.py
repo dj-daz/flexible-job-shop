@@ -1,4 +1,4 @@
-from src.genetic.poisson_distribution import *
+from src.From_external.poisson_distribution import *
 
 
 def get_job_lib(d):

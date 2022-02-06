@@ -4,7 +4,6 @@
 # The code is strictly mirroring the section 4.1 of the attached paper
 
 import os
-import math
 import csv
 import time
 from datetime import datetime
@@ -18,10 +17,10 @@ from src.genetic.DynamicFactoryEnvironment import *
 from src.utils import gantt
 from src.genetic import encoding, decoding, genetic, termination
 from src import config
-from src.genetic.helper import *
+from src.From_external.helper import *
 
 # ================================================================================================================ #
-with open("src\genetic\parameters.yaml", "r") as yamlfile:
+with open("src/From_external/parameters.yaml", "r") as yamlfile:
     d = yaml.load(yamlfile, Loader=yaml.FullLoader)
 
 suffix = d['suffix']
